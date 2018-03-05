@@ -7,11 +7,15 @@
 #define D6 RD6
 #define D7 RD7
 
-#define D0 RD0
+
+
+
 
 #include <xc.h>
 #include "LCD.h";
 #include <pic16f877a.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // BEGIN CONFIG
 #pragma config FOSC = HS // Oscillator Selection bits (HS oscillator)
@@ -23,6 +27,8 @@
 #pragma config WRT = OFF // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
 #pragma config CP = OFF // Flash Program Memory Code Protection bit (Code protection off)
 //END CONFIG
+
+
 void main()
 {
   int a;
@@ -40,8 +46,8 @@ void main()
   __delay_ms(3000);
   Lcd_Clear();
 
-  
-  // LED section
+  /*
+  // LED blinking (first test)
   TRISDbits.TRISD0 = 0;  // Setting up port D0 as output
   
   // loop to make the led light blink for testing
@@ -56,6 +62,33 @@ void main()
       for(int countDelay = 0; countDelay <20; countDelay ++)__delay_ms(50);
       
   }
+  
+  */
+  
+  // LED activated with a switch (second test)
+  
+  TRISBbits.TRISB5 = 1;  // setting bit 5 of port B as input for the button
+  TRISBbits.TRISB2 = 0;  // setting bit 2 of port B as output for the led
+  
+  while(1){
+      
+      if(PORTBbits.RB5 == 0)
+      {
+          RD1 = 1;
+          // small delay
+           for(int countDelay = 0; countDelay <20; countDelay ++)__delay_ms(5);
+           if(PORTBbits.RB5 == 0)
+           {
+               // checking if the swith of the button still closed and if it is, turn on the led
+               RB2 = 1;
+           }
+           
+      }
+      else
+          RB2 = 0;   // switch the led off
+      
+  }
+  
   
   
   // code for the detection of the height sensor
