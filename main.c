@@ -74,7 +74,7 @@ void main()
       
       if(PORTBbits.RB5 == 0)
       {
-          RD1 = 1;
+          
           // small delay
            for(int countDelay = 0; countDelay <20; countDelay ++)__delay_ms(5);
            if(PORTBbits.RB5 == 0)
